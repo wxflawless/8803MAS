@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Touch Slider-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/friend_card.css') }}">
+    <link rel="stylesheet" href="{{url_for('static',filename='lib/w3.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script>
+        function sub1(){
+            document.getElementById('agree').value = "agree";
+            document.getElementById('myform').submit();
+        }
+        function sub2(){
+            document.getElementById('myform').submit();
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Top Menu -->
+    <div class="topmenu">
+        <div class="top">
+            <!-- menuicon -->
+            <span class="menuicon" onclick="openNav()">
+                <i class="fa fa-bars"></i>
+            </span>
+            <!-- header -->       
+            <div class="header">FOODLINK</div>             
+        </div>
+    </div>
+
+    <!-- Hidden Sidenav (reveals when clicked on menu icon)-->
+    <div class="menu" id="mySidenav">
+            <a href="javascript:void(0)" class="hideicon" onclick="closeNav()">
+                <i class="fa fa-remove"></i>
+            </a> 
+            <div class="text"> 
+                <a href="{{url_for('givePicture', user_name=user_name)}}">Home</a>
+                <a href="{{url_for('getSelfProfile',user_name=user_name)}}">Profile</a>
+                <a href="{{url_for('getFriend',user_name=user_name)}}" >Friends</a>
+                <a href="{{url_for('getCoupon',user_name=user_name)}}">Coupons</a>
+                <a href="{{url_for('showtime')}}">About</a>
+                <a href="{{url_for('Mainpage')}}">Log out</a>
+            </div>
+    </div>
+
+    <!-- Friend recommendation card -->
+    <div class="card">
+    <div class="container1">
+        <div class="friend_recommendation_card">
+            <div class="container2">
+                <h2 class="gotcha">GOTCHA!</h2>
+                <img src="{{target.image}}" alt="head">  
+                <div class="name">{{target.name}}</div>               
+            </div>
+            <hr style="width: 90%; margin-left: 5%;"> 
+            <div class="container3">
+                <button onclick="sub1()" style="font-family: courier;"><i class="fa fa-user-plus"></i> Add Friend!</button>
+                <button onclick="HideButton('Details')" style="font-family: courier;"><i class="fa fa-user-secret"></i>  Details</button>
+                <button onclick="HideButton('Coupon')" style="font-family: courier;"><i class="fa fa-money"></i>  Coupon</button>
+                <button onclick="sub2()" style="font-family: courier;"><i class="fa fa-user-times"></i>  Later</button>
+            </div>
+            <!-- Macthing friend details -->
+            <div id="Details" class="details">
+                <hr style="width: 90%; margin-left: 5%;">
+                <table style="border-collapse: separate; font-family: courier;">
+                    <tr style="margin-top: 10px; height: 20px;">
+                        <th><p><i class="fa fa-cutlery" style="font-size: 19px; padding-right: 18px;"></i>Favorite Food: </p></th>
+                        <td style="padding-left: 5px;"><p>{{food}}</p></th>
+                    </tr>
+                    <tr style="margin-top: 10px; height: 10px;">
+                        <th><p><i class="fa fa-building-o" style="font-size: 19px; padding-right: 18px;"></i>Location: </p></td>
+                        <td style="padding-left: 5px;"><p>Atlanta</p></td>
+                    </tr>
+                    <tr style="margin-top: 10px; height: 10px;">
+                        <th><p><i class="fa fa-child" style="font-size: 19px; padding-right: 18px;"></i>Age: </p></td>
+                        <td style="padding-left: 5px;"><p>{{target.age}}</p></td>
+                    </tr>
+                    <tr style="margin-top: 10px; height: 10px;">
+                        <th><p><i class="fa fa-venus-mars" style="font-size: 19px; padding-right: 10px;"></i>Gender: </p></td>
+                        <td style="padding-left: 5px;"><p>{{target.gender}}</p></td>
+                    </tr>
+                </table>
+            </div>
+            <!-- Possible coupon details -->
+            <div id="Coupon" class="coupon" style="font-family: courier;"> 
+                <div style="margin: 10px 0 10px 0;">Add friend to get this COUPON!</div> 
+                <img src="http://www.bestfongs.com/coupon.jpg" alt="coupon" style="width:95%">
+            </div>
+        </div>   
+    </div>
+    </div>
+
+     <form id="myform" action="{{url_for('deal_friend', user_name=user_name,friend_name=target.name)}}" method="POST">
+            <input type="hidden" id="agree" name="agree"  value="disagree">
+    </form>
+    <!-- Open and close sidenav -->
+    <script>
+    function openNav() {
+    document.getElementById("mySidenav").style.width = "50%";
+    }
+
+    function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    }
+    </script>
+
+    <script>
+    function HideButton(id) {
+    var x = document.getElementById(id);
+        if (x.className.indexOf("show") == -1) {
+            x.className += " show";
+        } else {
+            x.className = x.className.replace(" show", "");
+        }   
+    }
+    </script>
+

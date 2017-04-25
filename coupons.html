@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Touch Slider-->
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/coupons.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/imageslide.css') }}">
+    <link rel="stylesheet" href="{{url_for('static',filename='lib/w3.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<style>
+body {
+    overflow: scroll;
+}
+.ScrollStyle
+{
+    overflow-y: scroll;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.content {
+    z-index:1;
+    position:fixed;
+    left:0;
+    top:0;
+    overflow: scroll;
+    margin-top: 23%;
+}
+
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+[class*="col-"] {
+    float: left;
+    padding: 15px;
+}
+
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+p.share {color: #9E9E9E; font-size: 12px;}
+span.name {color: #111; font-size: 17px;}
+.coupon_button {
+    color: #FDFEFE;
+    background-color: #C0392B;
+    border: 2px solid #C0392B;
+    text-align: center;
+    font-size: 16px;
+}
+</style>
+<body>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{message}}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Top Menu -->
+    <div class="topmenu" style="height: 13%;">
+        <div class="top">
+            <!-- menuicon -->
+            <span class="menuicon" onclick="openNav()">
+                <i class="fa fa-bars"></i>
+            </span>
+            <!-- header -->       
+            <div class="header">Coupons</div>             
+        </div>
+    </div>
+
+        <!-- coupon list -->
+        <div class="ScrollStyle" style="height: 100%;">
+                <div style="margin: 23% 2% 0 2%;">
+                {%for item in rec_set%}
+                <div class="row">
+                        <img src="{{item['rec'].pic1}}" class="col-3 w3-left" style="width:180px; height: 130px; margin-left: 3px;">
+                        <div class="col-10;">
+                            <p style="font-size: 12px;">{{item['rec'].name}}</p>
+                            <p class="share">Sharing with <span class="name" style="font-family: courier;">{{item['friend']}}</span></p>
+                            <form action="{{url_for('deal_coupon',user_name=user_name,friend_name=item['friend'])}}" method="POST">
+                                <button type="submit" class="coupon_button" name="rec" value="{{item['rec'].name}}">{{item['rec'].coupon}}
+                                </button>
+                            </form>
+                        </div>                   
+                </div>
+                <hr>
+                {% endfor %}
+                </div>
+        </div>
+
+    <!-- Hidden Sidenav (reveals when clicked on menu icon)-->
+    <div class="menu" id="mySidenav">
+            <a href="javascript:void(0)" class="hideicon" onclick="closeNav()">
+                <i class="fa fa-remove"></i>
+            </a>
+            <div class="text">
+                <a href="{{url_for('givePicture', user_name=user_name)}}">Home</a>
+                <a href="{{url_for('getSelfProfile',user_name=user_name)}}">Profile</a>
+                <a href="{{url_for('getFriend',user_name=user_name)}}" >Friends</a>
+                <a href="{{url_for('getCoupon',user_name=user_name)}}">Coupons</a>
+                <a href="{{url_for('showtime')}}">About</a>
+                <a href="{{url_for('Mainpage')}}">Log out</a>
+            </div>
+    </div>
+    <!-- bottom bar -->
+    <!-- <div class="w3-bar w3-display-bottomleft w3-black w3-mobile" style="height:10%;width: 100%; display: inline;">
+        <button class="w3-bar-item w3-button w3-center" style="font-size:36px;width:33.333%;"><i class="fa fa-home"></i></button>
+        <button class="w3-bar-item w3-button w3-center" style="font-size:36px;width:33.333%;"><i class="fa fa-gift"></i></button>
+        <button class="w3-bar-item w3-button w3-center" style="font-size:36px;width:33.333%;"><i class="fa fa-child"></i></button>
+    </div> -->
+
+    <!-- Open and close sidenav -->
+    <script>
+    function openNav() {
+    document.getElementById("mySidenav").style.width = "50%";
+    }
+
+    function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+    }
+
+    </script>
+
+</body>
+</html>
